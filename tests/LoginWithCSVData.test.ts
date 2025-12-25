@@ -14,9 +14,9 @@ test.describe('Login Tests from CSV Data', () => {
                 const password = loginRecord.Password;
                 
                 const loginPage = new LoginPage (page);    
-                await loginPage.navigateToLoginPage(loginURL!);
+                await page.goto(loginURL!);
                 await loginPage.performLogin(username, password);    
-                await loginPage.verifyLoginSuccess();
+                await loginPage.verifyLoginSuccess("My Account");
             });
         }    
     });
