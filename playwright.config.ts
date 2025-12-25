@@ -35,7 +35,7 @@ const config: PlaywrightTestConfig = {
   reporter: [['html', {open: 'always'}]],
   
   use: {
-    headless: true,
+    headless: false,
     screenshot: 'on',
     video: 'retain-on-failure',
   },

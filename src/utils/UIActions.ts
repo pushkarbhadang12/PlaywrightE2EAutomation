@@ -1,4 +1,4 @@
-import { Locator, expect } from "@playwright/test";
+import { Locator, expect, Page, TestInfo } from "@playwright/test";
 import Log from '../config/Logger';
 
 export default class UIActions {
@@ -151,14 +151,20 @@ export default class UIActions {
      * @throws {Error} Throws an error if the element is not visible
      * @returns {Promise<void>} A promise that resolves when the visibility check completes
      */
-    public static async verifyElement(locator: Locator, description: string) {
+    public static async verifyElement(locator: Locator, description: string): Promise<Boolean> {
         try{
             await expect(locator).toBeVisible();            
             Log.info(`${description} is visible on the page.`);
+            return true;
         } catch (error) {           
             Log.error(`Error verifying visibility of ${description}: ${error}`);
-            throw error;    
+            return false;  
         }       
+    }
+
+    public static async attachScreenshot(page: any, test:any, screenshotName: any, screenshotDetails: string){
+        screenshotName = await page.screenshot({ fullPage: true });
+        test.info().attach(screenshotDetails, {body: screenshotName, contentType: 'image/png'})
     }
     
 }
