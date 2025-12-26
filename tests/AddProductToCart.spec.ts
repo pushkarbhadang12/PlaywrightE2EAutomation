@@ -86,6 +86,14 @@ test.describe('Add Product to Shopping Cart from Excel Data', () => {
                     await myAccountPage.viewCartItemsCountAndPrice();
                 });
 
+                await test.step('Logout from Application', async () => {
+                    Log.info('Step 8: Logout from Application');  
+                    Log.info('Performing Logout Action');
+                    await myAccountPage.logOutFromApplication();
+                    Log.info('Verify Logout Success');
+                    await loginPage.verifyLogoutSuccess();
+                });
+
                 Log.testEnd(test.info().title);
                     
             });
