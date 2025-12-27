@@ -151,7 +151,7 @@ export default class UIActions {
      * @throws {Error} Throws an error if the element is not visible
      * @returns {Promise<void>} A promise that resolves when the visibility check completes
      */
-    public static async verifyElement(locator: Locator, description: string): Promise<Boolean> {
+    public static async verifyElementVisibility(locator: Locator, description: string): Promise<Boolean> {
         try{
             await expect(locator).toBeVisible();            
             Log.info(`${description} is visible on the page.`);

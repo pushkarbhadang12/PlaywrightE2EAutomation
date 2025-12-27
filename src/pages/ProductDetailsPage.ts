@@ -16,7 +16,7 @@ class ProductDetailsPage {
     }
 
    public async verifyProductHeading(ProductName: string) {
-       const verifyHeader: Boolean = await UIActions.verifyElement(this.ProductNameHeader(ProductName), "Product Name Header: Polo Shirt");
+       const verifyHeader = await UIActions.verifyElementVisibility(this.ProductNameHeader(ProductName), "Product Name Header: "+ProductName);
        expect(verifyHeader).toBeTruthy();
     }  
 

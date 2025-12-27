@@ -19,13 +19,13 @@ class ShoppingCartPage {
    }
 
    public async verifyShoppingCartPageHeading() {
-       await UIActions.verifyElement(this.ShoppingCartHeading, "Shopping Cart Heading");
+       await UIActions.verifyElementVisibility(this.ShoppingCartHeading, "Shopping Cart Heading");
    }
 
    public async verifyProductExistanceInShoppingCart(ProductName: string) {
        await UIActions.scrollToElement(this.ProductInShoppingCart(ProductName), "Product Name in Shopping Cart");
        await UIActions.attachScreenshot(this.page, test, "ShoppingCart", "Shopping Cart Page"); 
-       const IsProductAddedInCart:Boolean = await UIActions.verifyElement(this.ProductInShoppingCart(ProductName), "Product Name in Shopping Cart");
+       const IsProductAddedInCart:Boolean = await UIActions.verifyElementVisibility(this.ProductInShoppingCart(ProductName), "Product Name in Shopping Cart");
        if(!IsProductAddedInCart){
           Log.error("Unable to Add Product in Shopping Cart");
        } else{

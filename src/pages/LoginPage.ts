@@ -23,6 +23,7 @@ class LoginPage {
      public async performLogin(username: string, password: string) {
           await UIActions.fillElement(this.userNameTextBox, username, "User Name Text Box");
           await UIActions.fillElementWithSensitiveData(this.passwordTextBox, password, "Password Text Box");
+          //await UIActions.fillElement(this.passwordTextBox, password, "Password Text Box");
           await UIActions.attachScreenshot(this.page, test, "LoginDetailsCapture", "Capture Login Details");
           await UIActions.clickElement(this.loginButton, "Login Button");
      }
@@ -41,7 +42,7 @@ class LoginPage {
      }
 
      public async verifyLogoutSuccess() {
-          const isLogoutSuccessful: Boolean = await UIActions.verifyElement(this.logoutLabel, "Logout Label");
+          const isLogoutSuccessful: Boolean = await UIActions.verifyElementVisibility(this.logoutLabel, "Account Logout Label");
                   
           if (isLogoutSuccessful) {
                Log.info("Logout Successful");

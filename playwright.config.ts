@@ -1,4 +1,4 @@
-import {PlaywrightTestConfig} from '@playwright/test';
+import { defineConfig } from '@playwright/test';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
@@ -6,24 +6,39 @@ dotenv.config({path: path.resolve(__dirname, '.env')});
 
 require('dotenv').config({ override: true });
 
-const config: PlaywrightTestConfig = {
+export const STORAGE_STATE = path.join(__dirname, '/tests/state.json');
+
+export default defineConfig({
+
   projects: [
     
     {
-      name: 'chromium',
+      name: 'setup',
+      testMatch: '**/tests/*.setup.ts',
       use: {
-        browserName: 'chromium',       
-      },
-      
-    },  
-    // {
-    //   name: 'firefox',
-    //   use: {browserName: 'firefox'},
-    // },
-    // {
-    //   name: 'webkit',
-    //   use: {browserName: 'webkit'},
-    // },
+        browserName: 'chromium',              
+      }
+    },
+
+    {
+      name: 'e2e tests',
+      dependencies: ['setup'],
+      testMatch: '**/tests/*.spec.ts',
+      use: {
+        browserName: 'chromium',   
+        storageState: STORAGE_STATE,    
+      }      
+    }, 
+    
+    {
+      name: 'teardown',
+      dependencies: ['e2e tests'],
+      testMatch: '**/tests/*.teardown.ts',
+      use: {
+        browserName: 'chromium',              
+        storageState: STORAGE_STATE,    
+      }      
+    }
   ],
   
   timeout: 30000,
@@ -38,12 +53,6 @@ const config: PlaywrightTestConfig = {
     headless: true,
     screenshot: 'on',
     video: 'retain-on-failure',
-  },
+  }, 
+});
 
-  testMatch: '**/*.spec.ts',
-
-  //repeatEach: 2,
-
-};
-
-export default config;
