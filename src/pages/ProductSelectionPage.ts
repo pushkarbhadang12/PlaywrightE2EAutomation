@@ -19,7 +19,7 @@ class ProductSelectionPage {
     }
 
    public async verifyProductSubCategoryHeading(ProductSubCategoryName: string) {
-       const productSubCategoryHeading: Boolean = await UIActions.verifyElement(this.ProductSubCategoryHeading(ProductSubCategoryName), "Product Sub Category Heading: "+ProductSubCategoryName);
+       const productSubCategoryHeading = await UIActions.verifyElementVisibility(this.ProductSubCategoryHeading(ProductSubCategoryName), "Product Sub Category Heading: "+ProductSubCategoryName);
        await UIActions.attachScreenshot(this.page, test, "ProductSubCategoryHeading", "Product Sub Category Heading");
        expect(productSubCategoryHeading).toBeTruthy();
     }
