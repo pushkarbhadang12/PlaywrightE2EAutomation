@@ -1,11 +1,11 @@
 import {test} from '../src/config/BaseTest';
-import LoginPage from '../src/pages/LoginPage';
 import MyAccountPage from '../src/pages/MyAccountPage';
 import ProductSelectionPage from '../src/pages/ProductSelectionPage';
 import ProductDetailsPage from '../src/pages/ProductDetailsPage';
 import ShoppingCartPage from '../src/pages/ShoppingCartPage';
 import Log from '../src/config/Logger';
 import {readExcelFile} from '../src/utils/ExcelDataProvider';
+import { expect } from '@playwright/test';
 
 const baseURL = process.env.Base_URL; 
 
@@ -58,7 +58,13 @@ test.describe('Add Product to Shopping Cart from Excel Data', () => {
                     Log.info('Verify Shopping Cart Page Heading');  
                     await shoppingCartPage.verifyShoppingCartPageHeading();
                     Log.info('Verify Product in Shopping Cart');
-                    await shoppingCartPage.verifyProductExistanceInShoppingCart(testDataRecord.ProductName);
+                    const isProductInCart: Boolean = await shoppingCartPage.verifyProductExistanceInShoppingCart(testDataRecord.ProductName);
+                    if (!isProductInCart) {
+                        throw new Error("Product " + testDataRecord.ProductName + " is not present in Shopping Cart after addition.");
+                    } else {
+                        Log.info("Product " + testDataRecord.ProductName + " is present in Shopping Cart after addition.");
+                    }
+                    expect(isProductInCart).toBeTruthy();
                     Log.info('Click to Continue Shopping');
                     await shoppingCartPage.clickOnContinueShopping();                    
                 }); 
@@ -66,15 +72,7 @@ test.describe('Add Product to Shopping Cart from Excel Data', () => {
                 await test.step('View Shopping Cart Item Count and Price on My Account Page', async () => {
                     Log.info('Step 6: View Shopping Cart Item Count and Price on My Account Page');  
                     await myAccountPage.viewCartItemsCountAndPrice();                    
-                });
-
-                // await test.step('Logout from Application', async () => {
-                //     Log.info('Step 8: Logout from Application');  
-                //     Log.info('Performing Logout Action');
-                //     await myAccountPage.logOutFromApplication();
-                //     Log.info('Verify Logout Success');
-                //     await loginPage.verifyLogoutSuccess();
-                // });
+                });            
 
                 Log.testEnd(test.info().title);
                     

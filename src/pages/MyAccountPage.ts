@@ -66,6 +66,10 @@ class MyAccountPage {
         }
         expect(loginCheck).toBeTruthy();
     }
+
+    public async clickOnShoppingCartLink() {
+        await UIActions.clickElement(this.ItemsLink, "Items Link");
+    }
 }
 
 export default MyAccountPage;
