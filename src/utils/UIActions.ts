@@ -1,5 +1,6 @@
 import { Locator, expect, Page, TestInfo } from "@playwright/test";
 import Log from '../config/Logger';
+import Reporter from "../config/Reporter";
 
 export default class UIActions {
     // Add common UI action methods here in the future  
@@ -49,7 +50,7 @@ export default class UIActions {
      */
     public static async fillElement(locator: Locator, value: string, description: string) {
         try{
-            await locator.fill(value);            
+            await locator.fill(value);                  
             Log.info(`Filled ${description} with value: ${value} successfully.`);
         } catch (error) {           
             Log.error(`Error filling ${description} with value ${value}: ${error}`);
@@ -66,8 +67,9 @@ export default class UIActions {
      */
     public static async fillElementWithSensitiveData(locator: Locator, value: string, description: string) {
         try{
-            await locator.fill(value);  
-            const maskedValue = await UIActions.maskSensitiveData(value);          
+            await locator.fill(value);
+            const maskedValue = await UIActions.maskSensitiveData(value);  
+            Reporter.attachTextToReport(`Filled ${description} with value: ${maskedValue}`);      
             Log.info(`Filled ${description} with value: ${maskedValue} successfully.`);
         } catch (error) {           
             Log.error(`Error filling ${description} with value: ${error}`);
@@ -162,9 +164,9 @@ export default class UIActions {
         }       
     }
 
-    public static async attachScreenshot(page: any, test:any, screenshotName: any, screenshotDetails: string){
-        screenshotName = await page.screenshot({ fullPage: true });
-        test.info().attach(screenshotDetails, {body: screenshotName, contentType: 'image/png'})
-    }
+    // public static async attachScreenshot(page: any, test:any, screenshotName: any, screenshotDetails: string){
+    //     screenshotName = await page.screenshot({ fullPage: true });
+    //     test.info().attach(screenshotDetails, {body: screenshotName, contentType: 'image/png'})
+    // }
     
 }

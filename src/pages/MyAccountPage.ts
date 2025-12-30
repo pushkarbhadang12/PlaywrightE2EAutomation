@@ -1,7 +1,7 @@
 import { expect, Page, Locator } from "@playwright/test";
 import UIActions from "../utils/UIActions";
 import Log from '../config/Logger';
-import { test } from "../config/BaseTest";
+import Reporter from "../config/Reporter";
 
 class MyAccountPage {
 
@@ -13,6 +13,7 @@ class MyAccountPage {
     private readonly AccountLink: Locator;
     private readonly logoutLink: Locator;
     private readonly welcomeMessage: Locator;
+    private readonly orderSuccessMessage: Locator;
 
     constructor(private page: Page) {
         this.page = page;
@@ -28,6 +29,7 @@ class MyAccountPage {
         this.AccountLink = page.locator("//ul[@id='main_menu']//child::span[contains(text(),'Account')]");
         this.logoutLink = page.locator("//ul[@id='main_menu']//following::span[contains(text(),'Logout')]");
         this.welcomeMessage = page.locator("//div[contains(text(),'Welcome')]");
+        this.orderSuccessMessage = page.locator("//h1[@class='heading1']//child::span[contains(text(),'Your Order Has Been Processed')]");
     }
 
     public async hoverOnProductCategory(ProductCategoryName: string) {
@@ -39,8 +41,8 @@ class MyAccountPage {
     }
 
     public async viewCartItemsCountAndPrice() {
-        await UIActions.hoverElement(this.ItemsLink, "Items Link");
-        await UIActions.attachScreenshot(this.page, test, "CartItemsCountAndPrice", "Cart Items Count and Price Details");
+        await UIActions.hoverElement(this.ItemsLink, "Items Link");        
+        await Reporter.attachScreenshotToReport(this.page, "CartItemsCountAndPrice","Cart Items Count and Price Details");
         const itemCount = await this.ItemsCount.textContent();
         Log.info("Items Count:" + itemCount);
         expect(itemCount).not.toBe("$0.00");
@@ -69,6 +71,16 @@ class MyAccountPage {
 
     public async clickOnShoppingCartLink() {
         await UIActions.clickElement(this.ItemsLink, "Items Link");
+    }
+
+    public async verifyOrderSuccessMessage() {
+        const isOrderSuccessMessageVisible = await UIActions.verifyElementVisibility(this.orderSuccessMessage, "Order Success Message");    
+        if (!isOrderSuccessMessageVisible) {            
+            return false;
+        } else {            
+            return true;
+        }
+        expect(isOrderSuccessMessageVisible).toBeTruthy();
     }
 }
 
