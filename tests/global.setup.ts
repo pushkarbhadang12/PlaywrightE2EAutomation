@@ -29,7 +29,7 @@ setup('Authenticate User and Save Storage State', async ({ page }) => {
 
     await setup.step('Login to Application and verify login', async () => {
         Log.info('Step 2: Login to Application and verify login');
-        Log.info('Performing Login Action');
+        Log.info('Performing Login Action');        
         await loginPage.performLogin(username!, decryptedPassword!);
         Log.info('Verify Login Success');
         await loginPage.verifyLoginSuccess(pageTitleMyAccountPage!);

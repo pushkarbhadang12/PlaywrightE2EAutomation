@@ -1,7 +1,7 @@
 import { expect, Page, Locator } from "@playwright/test";
-import { test } from '../config/BaseTest';
 import Log from '../config/Logger';
 import UIActions from "../utils/UIActions";
+import Reporter from "../config/Reporter";
 
 class LoginPage {
 
@@ -14,7 +14,7 @@ class LoginPage {
      constructor(private page: Page) {
           this.page = page;
           this.userNameTextBox = page.locator('#loginFrm_loginname');
-          this.passwordTextBox = page.locator('#loginFrm_password');
+          this.passwordTextBox = page.locator('input[type=password]');         
           this.loginButton = page.getByTitle('Login');
           this.errorMessage = page.getByText('Incorrect login or password');
           this.logoutLabel = page.locator("//div[@id='maincontainer']//child::span[contains(text(),'Account Logout')]");
@@ -22,9 +22,8 @@ class LoginPage {
 
      public async performLogin(username: string, password: string) {
           await UIActions.fillElement(this.userNameTextBox, username, "User Name Text Box");
-          await UIActions.fillElementWithSensitiveData(this.passwordTextBox, password, "Password Text Box");
-          //await UIActions.fillElement(this.passwordTextBox, password, "Password Text Box");
-          await UIActions.attachScreenshot(this.page, test, "LoginDetailsCapture", "Capture Login Details");
+          await UIActions.fillElementWithSensitiveData(this.passwordTextBox, password, "Password Text Box");          
+          await Reporter.attachScreenshotToReport(this.page, "LoginDetailsCapture","Login Details Capture");
           await UIActions.clickElement(this.loginButton, "Login Button");
      }
 

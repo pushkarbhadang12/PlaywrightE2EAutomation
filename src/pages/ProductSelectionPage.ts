@@ -1,6 +1,6 @@
 import { Page, Locator, expect } from "@playwright/test";
 import UIActions from "../utils/UIActions";
-import {test} from "../../src/config/BaseTest";
+import Reporter from "../config/Reporter";
 
 class ProductSelectionPage {      
     
@@ -19,8 +19,8 @@ class ProductSelectionPage {
     }
 
    public async verifyProductSubCategoryHeading(ProductSubCategoryName: string) {
-       const productSubCategoryHeading = await UIActions.verifyElementVisibility(this.ProductSubCategoryHeading(ProductSubCategoryName), "Product Sub Category Heading: "+ProductSubCategoryName);
-       await UIActions.attachScreenshot(this.page, test, "ProductSubCategoryHeading", "Product Sub Category Heading");
+       const productSubCategoryHeading = await UIActions.verifyElementVisibility(this.ProductSubCategoryHeading(ProductSubCategoryName), "Product Sub Category Heading: "+ProductSubCategoryName);       
+       await Reporter.attachScreenshotToReport(this.page, "ProductSubCategoryHeading","Product Sub Category Heading");
        expect(productSubCategoryHeading).toBeTruthy();
     }
 

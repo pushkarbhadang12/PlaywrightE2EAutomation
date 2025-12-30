@@ -1,6 +1,5 @@
 import { expect, Page, Locator } from "@playwright/test";
 import UIActions from "../utils/UIActions";
-import Log from '../config/Logger';
 
 class ProductDetailsPage {      
     
