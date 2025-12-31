@@ -50,9 +50,11 @@ export default defineConfig({
   reporter: [['html', {open: 'always'}]],
   
   use: {
-    headless: false,
+    headless: true,
     screenshot: 'on',
     video: 'retain-on-failure',
   }, 
+
+  workers: 1
 });
 
