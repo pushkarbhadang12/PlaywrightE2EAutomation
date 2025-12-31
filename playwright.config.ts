@@ -54,5 +54,7 @@ export default defineConfig({
     screenshot: 'on',
     video: 'retain-on-failure',
   }, 
+
+  workers: 1
 });
 
