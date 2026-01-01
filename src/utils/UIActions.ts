@@ -164,9 +164,26 @@ export default class UIActions {
         }       
     }
 
-    // public static async attachScreenshot(page: any, test:any, screenshotName: any, screenshotDetails: string){
-    //     screenshotName = await page.screenshot({ fullPage: true });
-    //     test.info().attach(screenshotDetails, {body: screenshotName, contentType: 'image/png'})
-    // }
+    public static async getElementText(locator: Locator, description: string): Promise<string> {
+        try{
+            const elementText = await locator.textContent();            
+            Log.info(`Retrieved text from ${description} successfully.`); 
+            return elementText ? elementText : "";           
+        } catch (error) {           
+            Log.error(`Error retrieving text from ${description}: ${error}`);
+            throw error;    
+        }     
+        
+    }
+
+    public static async waitForElementToBeInvisible(locator: Locator, description: string, timeout: number = 5000): Promise<void> {
+        try{
+            await locator.waitFor({ state: 'hidden', timeout: timeout });            
+            Log.info(`${description} is now invisible on the page.`);
+        } catch (error) {           
+            Log.error(`Error waiting for ${description} to be invisible: ${error}`);
+            throw error;    
+        }       
+    }
     
 }

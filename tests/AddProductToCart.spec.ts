@@ -9,7 +9,7 @@ import { expect } from '@playwright/test';
 
 const baseURL = process.env.Base_URL;
 
-const testDataRecords = readExcelFile('test-data-automation-test-store.xlsx', 'AddProduct');
+const testDataRecords = readExcelFile('test-data-automation-test-store.xlsx', 'AddProductShoppingCart');
 
 test.beforeEach(async ({ page }) => {
     await page.goto(baseURL!);

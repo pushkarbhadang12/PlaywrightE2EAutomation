@@ -14,7 +14,8 @@ class MyAccountPage {
     private readonly logoutLink: Locator;
     private readonly welcomeMessage: Locator;
     private readonly orderSuccessMessage: Locator;
-
+    private readonly myWishlistLink: Locator;
+    
     constructor(private page: Page) {
         this.page = page;
         this.ProductCategoryLink = (ProductCategoryName: string) => {
@@ -30,6 +31,8 @@ class MyAccountPage {
         this.logoutLink = page.locator("//ul[@id='main_menu']//following::span[contains(text(),'Logout')]");
         this.welcomeMessage = page.locator("//div[contains(text(),'Welcome')]");
         this.orderSuccessMessage = page.locator("//h1[@class='heading1']//child::span[contains(text(),'Your Order Has Been Processed')]");
+        this.welcomeMessage = page.locator("//div[contains(text(),'Welcome')]");
+        this.myWishlistLink = page.locator("//li[@class='dropdown open']//child::a[contains(text(),'My wish list')]");
     }
 
     public async hoverOnProductCategory(ProductCategoryName: string) {
@@ -61,10 +64,10 @@ class MyAccountPage {
     public async verifyIfApplicationIsLoggedIn() {
         const loginCheck = await UIActions.verifyElementVisibility(this.welcomeMessage, "Welcome Message");
         if (!loginCheck) {
-            Log.error("Login was not successful, cannot proceed with Add Product to Cart Test");
+            Log.error("Login was not successful, cannot proceed with further Test");
         }
         else {
-            Log.info("Login is successful, proceeding with Add Product to Cart Test");
+            Log.info("Login is successful, proceeding with further Test");
         }
         expect(loginCheck).toBeTruthy();
     }
@@ -81,6 +84,12 @@ class MyAccountPage {
             return true;
         }
         expect(isOrderSuccessMessageVisible).toBeTruthy();
+    }
+
+    public async goToWishListPage(){
+        await UIActions.scrollToElement(this.welcomeMessage, "Welcome Message");
+        await UIActions.hoverElement(this.welcomeMessage, "Welcome Message");
+        await UIActions.clickElement(this.myWishlistLink, "My Wishlist Link");          
     }
 }
 
