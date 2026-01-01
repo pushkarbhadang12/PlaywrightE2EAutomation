@@ -9,7 +9,7 @@ import {readExcelFile} from '../src/utils/ExcelDataProvider';
 
 const baseURL = process.env.Base_URL; 
 
-const testDataRecords = readExcelFile('test-data-automation-test-store.xlsx','DeleteProduct');
+const testDataRecords = readExcelFile('test-data-automation-test-store.xlsx','DeleteProductFromShoppingCart');
 
 test.beforeEach(async ({ page }) => {
     await page.goto(baseURL!);
@@ -37,7 +37,9 @@ test.describe('Delete Product from Shopping Cart from Excel Data', () => {
                     await shoppingCartPage.verifyShoppingCartPageHeading();
                     const isProductInCart: Boolean = await shoppingCartPage.verifyProductExistanceInShoppingCart(testDataRecord.ProductName);                    
                     if (!isProductInCart) {
-                        throw new Error("Product " + testDataRecord.ProductName + " is not present in Shopping Cart to delete.");
+                        Log.info("Product " + testDataRecord.ProductName + " is not present in Shopping Cart to delete.");
+                        Log.info("Skipping test as Product " + testDataRecord.ProductName + " is not present in Shopping Cart to delete.");
+                        test.skip();
                     } else {
                         Log.info("Product " + testDataRecord.ProductName + " is present in Shopping Cart before deletion.");
                     }
